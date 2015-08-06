@@ -17,3 +17,5 @@ variable "key_name" { }
 variable "consul_server_count" { 
   default = 3
 }
+
+variable "nodejs_count" { }
