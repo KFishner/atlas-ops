@@ -98,7 +98,7 @@ resource "aws_instance" "nodejs" {
   ami = "${atlas_artifact.nodejs.metadata_full.region-us-east-1}"
   user_data = "${template_file.consul_upstart.rendered}" 
   key_name = "${var.key_name}"
-  count = 2
+  count = "${var.nodejs_count}"
     
   vpc_security_group_ids = ["${aws_security_group.haproxy.id}"]
   subnet_id = "${module.vpc.subnet_id}"
