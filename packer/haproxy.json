@@ -1,0 +1,66 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `aws_access_key`}}",
+        "aws_secret_key": "{{env `aws_access_key`}}",
+        "atlas_username": "ATLAS_USERNAME"
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "us-east-1",
+        "source_ami": "ami-9a562df2",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ami_name": "haproxy {{timestamp}}"
+    }],
+    "push": {
+      "name": "{{user `atlas_username`}}/haproxy",
+      "vcs": false
+    },
+    "provisioners": [
+    {
+        "type": "shell",
+        "script": "scripts/base.sh"
+    },
+    {
+        "type": "shell",
+        "script": "scripts/haproxy.sh"
+    },
+    {
+        "type": "file",
+        "source": "files/haproxy.json",
+        "destination": "/etc/consul.d/haproxy.json"
+    },
+    {
+        "type": "file",
+        "source": "templates/haproxy.ctmpl",
+        "destination": "/etc/ctmpl/haproxy.ctmpl"
+    },
+    {
+        "type": "file",
+        "source": "upstart/haproxy.conf",
+        "destination": "/etc/init/haproxy.conf"
+    },
+    {
+        "type": "file",
+        "source": "upstart/consul_template.conf",
+        "destination": "/etc/init/consul_template.conf"
+    },
+    {
+        "type": "file",
+        "source": "upstart/consul_client.conf",
+        "destination": "/etc/init/consul.conf"
+    }
+    ],
+    "post-processors": [
+      {
+        "type": "atlas",
+        "artifact": "{{user `atlas_username`}}/haproxy",
+        "artifact_type": "aws.ami",
+        "metadata": {
+          "created_at": "{{timestamp}}"
+        }
+      }
+    ]
+}

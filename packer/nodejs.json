@@ -1,0 +1,68 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `aws_access_key`}}",
+        "aws_secret_key": "{{env `aws_access_key`}}",
+        "atlas_username": "ATLAS_USERNAME"
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "us-east-1",
+        "source_ami": "ami-9a562df2",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ami_name": "nodejs {{timestamp}}"
+    }],
+    "push": {
+      "name": "{{user `atlas_username`}}/nodejs",
+      "vcs": false
+    },
+    "provisioners": [
+    {   
+        "type": "shell",
+        "inline": [
+            "sudo mkdir /application",
+            "sudo chmod a+w /application"
+        ]
+    },
+    {   
+        "type": "file",
+        "source": "/packer/app",
+        "destination": "/application"
+    },
+    {
+        "type": "shell",
+        "script": "scripts/base.sh"
+    },
+    {
+        "type": "shell",
+        "script": "scripts/nodejs.sh"
+    },
+    {
+        "type": "file",
+        "source": "files/nodejs.json",
+        "destination": "/etc/consul.d/nodejs.json"
+    },
+    {
+        "type": "file",
+        "source": "upstart/nodejs.conf",
+        "destination": "/etc/init/nodejs.conf"
+    },
+    {
+        "type": "file",
+        "source": "upstart/consul_client.conf",
+        "destination": "/etc/init/consul.conf"
+    }
+    ],
+    "post-processors": [
+      {
+        "type": "atlas",
+        "artifact": "{{user `atlas_username`}}/nodejs",
+        "artifact_type": "aws.ami",
+        "metadata": {
+          "created_at": "{{timestamp}}"
+        }
+      }
+    ]
+}
