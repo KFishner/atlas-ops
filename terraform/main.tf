@@ -34,6 +34,10 @@ resource "template_file" "consul_upstart" {
     atlas_environment = "${var.atlas_environment}"
     consul_server_count = "${var.consul_server_count}"
     }
+
+  lifecycle = {
+    create_before_destroy = true
+  }
 }
 
 //
