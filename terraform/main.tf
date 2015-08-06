@@ -97,20 +97,6 @@ resource "aws_instance" "consul" {
   }
 }
 
-resource "aws_instance" "test" {
-  instance_type = "t2.micro"
-  ami = "${atlas_artifact.consul.metadata_full.region-us-east-1}"
-  key_name = "${var.key_name}"
-  count = 1
-
-  vpc_security_group_ids = ["${aws_security_group.haproxy.id}"]
-  subnet_id = "${module.vpc.subnet_id}"
-  
-  lifecycle = {
-    create_before_destroy = true  
-  }
-}
-
 // module "consul" {
 //     source = "./asg"
 //     ami = "${atlas_artifact.consul.metadata_full.region-us-east-1}"
