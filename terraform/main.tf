@@ -121,8 +121,8 @@ resource "aws_instance" "nodejs" {
   user_data = "${template_file.consul_upstart.rendered}" 
   key_name = "${var.key_name}"
   count = "${var.nodejs_count}"
-  vpc_security_group_ids = ["${split(",", lookup(var.sec_groups, var.env))}", "${aws_security_group.haproxy.id}"]
 
+  vpc_security_group_ids = ["${aws_security_group.haproxy.id}"]
   subnet_id = "${module.vpc.subnet_id}"
 
   lifecycle = {
