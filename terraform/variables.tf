@@ -19,15 +19,3 @@ variable "consul_server_count" {
 }
 
 variable "nodejs_count" { }
-
-variable "sec_groups" {
-    default = {
-      dev = "sg-e1e78686"
-      production = "sg-39e7865e,sg-e1e78686"
-    }
-}
-
-variable "env" {
-    description = "Environment in which to setup new cluster"
-    default = "dev"
-}
