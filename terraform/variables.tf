@@ -22,8 +22,8 @@ variable "nodejs_count" { }
 
 variable "sec_groups" {
     default = {
-      dev = "sg-d362feb7"
-      production = "sg-ca44f7ae,sg-0eb43469"
+      dev = "sg-e1e78686"
+      production = "sg-39e7865e,sg-e1e78686"
     }
 }
 
