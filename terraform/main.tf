@@ -97,20 +97,6 @@ resource "aws_instance" "consul" {
   }
 }
 
-resource "aws_instance" "test" {
-  instance_type = "t2.micro"
-  ami = "${atlas_artifact.consul.metadata_full.region-us-east-1}"
-  key_name = "${var.key_name}"
-  count = 1
-
-  vpc_security_group_ids = ["${aws_security_group.haproxy.id}"]
-  subnet_id = "${module.vpc.subnet_id}"
-  
-  lifecycle = {
-    create_before_destroy = true  
-  }
-}
-
 // module "consul" {
 //     source = "./asg"
 //     ami = "${atlas_artifact.consul.metadata_full.region-us-east-1}"
@@ -135,8 +121,8 @@ resource "aws_instance" "nodejs" {
   user_data = "${template_file.consul_upstart.rendered}" 
   key_name = "${var.key_name}"
   count = "${var.nodejs_count}"
-    
-  vpc_security_group_ids = ["${aws_security_group.haproxy.id}"]
+  vpc_security_group_ids = ["${split(",", lookup(var.sec_groups, var.env))}", "${aws_security_group.haproxy.id}"]
+
   subnet_id = "${module.vpc.subnet_id}"
 
   lifecycle = {
