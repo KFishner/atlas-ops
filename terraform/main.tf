@@ -110,7 +110,7 @@ module "nodejs" {
     subnet_id = "${module.vpc.subnet_id}"
     nodes = "${var.nodejs_count}"
     vpc_id = "${module.vpc.vpc_id}"
-    azs = ["us-east-1b", "us-east-1c"]
+    azs = "us-east-1b, us-east-1c"
 }
 
 resource "aws_instance" "nodejs" {
