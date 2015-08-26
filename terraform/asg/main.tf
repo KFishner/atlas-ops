@@ -26,11 +26,33 @@ resource "aws_autoscaling_group" "web" {
         "${aws_elb.web.id}",
     ]
     availability_zones = ["${split(",", var.azs)}"]
-    vpc_zone_identifier = ["${split(",", var.private_subnet_ids)}"]
+    vpc_zone_identifier = ["${var.subnet_idf}"]
 
     tag {
       key = "Name"
       value = "web-http"
       propagate_at_launch = true
+    }
+}
+
+resource "aws_elb" "web" {
+    name = "${var.elb_name}"
+    security_groups = ["${aws_security_group.web.id}"]
+    subnets = ["${var.subnet_id"]
+    connection_draining = true
+
+    listener {
+        instance_port = 80
+        instance_protocol = "http"
+        lb_port = 80
+        lb_protocol = "http"
+    }
+
+    health_check {
+        target = "HTTP:80/_health_check"
+        healthy_threshold = 2
+        unhealthy_threshold = 2
+        interval = 15
+        timeout = 10
     }
 }
