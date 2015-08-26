@@ -14,6 +14,8 @@ variable "asg_name" { }
 
 variable "azs" { }
 
+variable "key_name" { }
+
 variable "subnet_id" { }
 
 variable "nodes" { }
