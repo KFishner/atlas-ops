@@ -21,5 +21,5 @@ variable "consul_server_count" {
 variable "nodejs_count" { }
 
 variable "azs" {
-  default = "us-east-1b,us-east-1c"
+  default = "us-east-1b"
 }
