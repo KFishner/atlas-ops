@@ -116,8 +116,7 @@ resource "aws_elb" "web" {
     name = "web"
     security_groups = ["${aws_security_group.haproxy.id}"]
     subnets = ["${module.vpc.subnet_id}"]
-    instances = ["${aws_instance.nodejs.*}"]
-
+    instances = ["${aws_instance.nodejs.*.id}"]
 
     listener {
         instance_port = 80
