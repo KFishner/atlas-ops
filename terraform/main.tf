@@ -97,22 +97,6 @@ resource "aws_instance" "consul" {
   }
 }
 
-module "nodejs" {
-    source = "./asg"
-    ami = "${atlas_artifact.nodejs.metadata_full.region-us-east-1}"
-    user_data = "${template_file.consul_upstart.rendered}" 
-    // Force re-creation with name
-    asg_name = "nodejs-2 ${atlas_artifact.consul.metadata_full.region-us-east-1}"
-    key_name = "${var.key_name}"
-    instance_type = "t2.micro"
-
-    elb_name = "production"
-    security_group = "${aws_security_group.haproxy.id}"
-    subnet_id = "${module.vpc.subnet_id}"
-    nodes = "${var.nodejs_count}"
-    azs = "${var.azs}"
-}
-
 resource "aws_instance" "nodejs" {
   instance_type = "t2.micro"
   ami = "${atlas_artifact.nodejs.metadata_full.region-us-east-1}"
@@ -126,6 +110,29 @@ resource "aws_instance" "nodejs" {
   lifecycle = {
     create_before_destroy = true
   }
+}
+
+resource "aws_elb" "web" {
+    name = "web"
+    security_groups = ["${aws_security_group.haproxy.id}"]
+    subnets = ["${module.vpc.subnet_id}"]
+    instances = ["${aws_instance.nodejs.*}"]
+
+
+    listener {
+        instance_port = 80
+        instance_protocol = "http"
+        lb_port = 80
+        lb_protocol = "http"
+    }
+
+    health_check {
+        target = "HTTP:80/_health_check"
+        healthy_threshold = 2
+        unhealthy_threshold = 2
+        interval = 15
+        timeout = 10
+    }
 }
 
 resource "aws_instance" "haproxy" {
