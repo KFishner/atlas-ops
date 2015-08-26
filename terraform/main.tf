@@ -106,6 +106,7 @@ module "nodejs" {
     key_name = "${var.key_name}"
     instance_type = "t2.micro"
 
+    elb_name = "production"
     security_group = "${aws_security_group.haproxy.id}"
     subnet_id = "${module.vpc.subnet_id}"
     nodes = "${var.nodejs_count}"
