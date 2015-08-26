@@ -110,7 +110,7 @@ module "nodejs" {
     security_group = "${aws_security_group.haproxy.id}"
     subnet_id = "${module.vpc.subnet_id}"
     nodes = "${var.nodejs_count}"
-    azs = "us-east-1b, us-east-1c"
+    azs = "${var.azs}"
 }
 
 resource "aws_instance" "nodejs" {
