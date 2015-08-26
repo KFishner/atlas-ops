@@ -3,7 +3,7 @@ variable "vpc-cidr" {
 }
 
 variable "subnet-cidr" {
-	default = "172.31.0.0/20"
+	default = "172.31.16.0/20"
 }
 
 variable "azs" {
