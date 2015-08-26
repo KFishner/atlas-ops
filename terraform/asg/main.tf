@@ -38,7 +38,7 @@ resource "aws_autoscaling_group" "web" {
 resource "aws_elb" "web" {
     name = "${var.elb_name}"
     security_groups = ["${aws_security_group.web.id}"]
-    subnets = ["${var.subnet_id"]
+    subnets = ["${var.subnet_id}"]
     connection_draining = true
 
     listener {
