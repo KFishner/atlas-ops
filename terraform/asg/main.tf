@@ -47,7 +47,7 @@ resource "aws_autoscaling_group" "web" {
     load_balancers = [
         "${aws_elb.web.id}",
     ]
-    availability_zones = ["${split(",", var.azs)}"]
+    availability_zones = ["${var.azs}"]
     vpc_zone_identifier = ["${var.subnet_id}"]
 
     tag {
