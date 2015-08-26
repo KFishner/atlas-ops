@@ -1,3 +1,23 @@
+variable "subnet_id" { }
+
+variable "elb_name" { }
+
+variable "security_group" { }
+
+variable "ami" { }
+
+variable "instance_type" { }
+
+variable "user_data" { }
+
+variable "asg_name" { }
+
+variable "azs" { }
+
+variable "subnet_id" { }
+
+variable "nodes" { }
+
 resource "aws_launch_configuration" "web" {
     lifecycle {
         create_before_destroy = true
