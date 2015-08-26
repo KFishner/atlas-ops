@@ -12,6 +12,10 @@ resource "atlas_artifact" "nodejs" {
   type = "aws.ami"
   
   version = 5
+  
+  lifecycle = {
+    create_before_destroy = true
+  }
 }
 
 resource "atlas_artifact" "haproxy" {
