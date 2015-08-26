@@ -7,6 +7,7 @@ resource "aws_subnet" "main" {
     vpc_id = "${aws_vpc.main.id}"
     cidr_block = "${var.subnet-cidr}"
     map_public_ip_on_launch = true
+    availability_zone = "${var.azs}"
 }
 
 resource "aws_internet_gateway" "gw" {
