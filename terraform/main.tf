@@ -10,6 +10,8 @@ provider "aws" {
 resource "atlas_artifact" "nodejs" {
   name = "${var.atlas_username}/nodejs"
   type = "aws.ami"
+  
+  version = 5
 }
 
 resource "atlas_artifact" "haproxy" {
