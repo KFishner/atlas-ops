@@ -26,7 +26,7 @@ resource "aws_autoscaling_group" "web" {
         "${aws_elb.web.id}",
     ]
     availability_zones = ["${split(",", var.azs)}"]
-    vpc_zone_identifier = ["${var.subnet_idf}"]
+    vpc_zone_identifier = ["${var.subnet_id}"]
 
     tag {
       key = "Name"
