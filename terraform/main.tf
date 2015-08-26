@@ -10,6 +10,12 @@ provider "aws" {
 resource "atlas_artifact" "nodejs" {
   name = "${var.atlas_username}/nodejs"
   type = "aws.ami"
+  
+  version = 5
+  
+  lifecycle = {
+    create_before_destroy = true
+  }
 }
 
 resource "atlas_artifact" "haproxy" {
