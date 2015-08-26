@@ -13,7 +13,7 @@ resource "atlas_artifact" "nodejs" {
   
   version = 5
   
-  lifecycle = {
+  lifecycle {
     create_before_destroy = true
   }
 }
