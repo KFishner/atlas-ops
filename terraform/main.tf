@@ -102,7 +102,7 @@ module "nodejs" {
     ami = "${atlas_artifact.nodejs.metadata_full.region-us-east-1}"
     user_data = "${template_file.consul_upstart.rendered}" 
     // Force re-creation with name
-    asg_name = "nodejs ${atlas_artifact.consul.metadata_full.region-us-east-1}"
+    asg_name = "nodejs-2 ${atlas_artifact.consul.metadata_full.region-us-east-1}"
     key_name = "${var.key_name}"
     instance_type = "t2.micro"
 
