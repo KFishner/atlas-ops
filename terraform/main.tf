@@ -52,7 +52,7 @@ module "vpc" {
 }
 
 resource "aws_security_group" "haproxy" {
-  name = "haproxy"
+  name = "test"
   vpc_id = "${module.vpc.vpc_id}"
 
   ingress {
