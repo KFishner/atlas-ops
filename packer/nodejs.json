@@ -12,7 +12,7 @@
         "source_ami": "ami-9a562df2",
         "instance_type": "t2.micro",
         "ssh_username": "ubuntu",
-        "ami_name": "nodejs {{timestamp}}"
+        "ami_name": "nodejs {{timestamp}} 1"
     }],
     "push": {
       "name": "{{user `atlas_username`}}/nodejs",
