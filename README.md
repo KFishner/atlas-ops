@@ -1,6 +1,6 @@
 HAProxy and Node.js
 ===================
-This repository and walkthrough guides you through deploying HAProxy and Node.js on AWS with Consul for service discovery.
+This repository and walkthrough guides you through deploying HAProxy and Node.js on AWS with Consul for service discovery
 
 General setup
 -------------
